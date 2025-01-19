@@ -113,4 +113,11 @@ class CustomerTierServiceTest {
         assertEquals(tiers.get(1), service.getProperCustomerTier(5));
         assertEquals(tiers.get(1), service.getProperCustomerTier(7));
     }
+
+    @Test
+    void getProperCustomerTierNullTest() {
+        when(repository.findAll()).thenReturn(List.of());
+
+        assertEquals(null, service.getProperCustomerTier(4));
+    }
 }
