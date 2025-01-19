@@ -1,4 +1,4 @@
-package com.equinte.gotur.dao.customerTier.response;
+package com.equinte.gotur.dao.customer_tier.response;
 
 import lombok.Data;
 

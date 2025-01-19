@@ -1,6 +1,6 @@
 package com.equinte.gotur.entity.listeners;
 
-import com.equinte.gotur.dao.customerTier.response.CustomerTierDTO;
+import com.equinte.gotur.dao.customer_tier.response.CustomerTierDTO;
 import com.equinte.gotur.entity.Order;
 import com.equinte.gotur.service.CustomerService;
 import com.equinte.gotur.service.CustomerTierService;
@@ -29,7 +29,7 @@ public class OrderListener {
     @PostUpdate
     public void checkCustomerTier(Order order) {
         List<CustomerTierDTO> tiers = customerTierService.findAllDto();
-        int orderCount = customerService.findById(order.getCustomer().getId()).getOrders().size();
+        int orderCount = customerService.findEntityById(order.getCustomer().getId()).getOrders().size();
 
         //Terrible implementation, since orders are sorted we can find the tier of customer using faster search algorithms.
         //However, it's a demo :D
@@ -38,14 +38,12 @@ public class OrderListener {
             int minimumOrderCount = tier.getMinimumOrderCount();
 
             if (orderCount == minimumOrderCount) {
-                order.getCustomer().setTier(customerTierService.findById(tier.getId()));
+                customerService.findEntityById(order.getCustomer().getId()).setTier(customerTierService.findById(tier.getId()));
                 log.info("CustomerID: {} tier updated to {}", order.getCustomer().getId(), tier.getName());
-                break;
             }
 
             if (orderCount == minimumOrderCount - 1) {
                 notificationService.sendNotification(order.getCustomer(), String.format("Make one more order to promote %s tier!", tier.getName()));
-                break;
             }
 
             //Since customer tiers sorted by minimumOrderCount, we can reduce amount of loops by checking if orderCount is less then minimumOrderCount

@@ -13,7 +13,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -22,8 +22,8 @@ import java.time.LocalDateTime;
 @Table(name = "orders")
 @EntityListeners(OrderListener.class)
 public class Order {
-    @CreatedDate
-    public LocalDateTime createTime;
+    @CreationTimestamp
+    private LocalDateTime createTime;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id; //Should be UUID

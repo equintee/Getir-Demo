@@ -51,19 +51,6 @@ class CustomerServiceTest {
     }
 
     @Test
-    void findDtoById() {
-        Customer customer = new Customer();
-        long customerId = 1L;
-        customer.setId(customerId);
-
-        when(repository.findById(customerId)).thenReturn(Optional.of(customer));
-        when(repository.findById(2L)).thenReturn(Optional.empty());
-
-        assertEquals(customerId, service.findDtoById(customerId).getId());
-        assertThrows(GeneralException.class, () -> service.findDtoById(customerId + 1));
-    }
-
-    @Test
     void findById() {
         Customer customer = new Customer();
         long customerId = 1L;
@@ -72,8 +59,21 @@ class CustomerServiceTest {
         when(repository.findById(customerId)).thenReturn(Optional.of(customer));
         when(repository.findById(2L)).thenReturn(Optional.empty());
 
-        assertEquals(customer, service.findById(customerId));
+        assertEquals(customerId, service.findById(customerId).getId());
         assertThrows(GeneralException.class, () -> service.findById(customerId + 1));
+    }
+
+    @Test
+    void findEntityById() {
+        Customer customer = new Customer();
+        long customerId = 1L;
+        customer.setId(customerId);
+
+        when(repository.findById(customerId)).thenReturn(Optional.of(customer));
+        when(repository.findById(2L)).thenReturn(Optional.empty());
+
+        assertEquals(customer, service.findEntityById(customerId));
+        assertThrows(GeneralException.class, () -> service.findEntityById(customerId + 1));
     }
 
     @Test

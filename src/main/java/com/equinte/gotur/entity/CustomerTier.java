@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -33,6 +33,6 @@ public class CustomerTier {
     @NotNull
     private Integer minimumOrderCount;
 
-    @LastModifiedDate
+    @UpdateTimestamp
     private LocalDateTime updateTime;
 }

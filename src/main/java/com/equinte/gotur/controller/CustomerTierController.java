@@ -1,7 +1,7 @@
 package com.equinte.gotur.controller;
 
-import com.equinte.gotur.dao.customerTier.request.UpdateCustomerTierRequest;
-import com.equinte.gotur.dao.customerTier.response.CustomerTierDTO;
+import com.equinte.gotur.dao.customer_tier.request.UpdateCustomerTierRequest;
+import com.equinte.gotur.dao.customer_tier.response.CustomerTierDTO;
 import com.equinte.gotur.service.CustomerTierService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

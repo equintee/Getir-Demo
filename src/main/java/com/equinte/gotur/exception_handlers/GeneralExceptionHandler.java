@@ -1,4 +1,4 @@
-package com.equinte.gotur.exceptionHandlers;
+package com.equinte.gotur.exception_handlers;
 
 import com.equinte.gotur.exceptions.GeneralException;
 import org.slf4j.Logger;

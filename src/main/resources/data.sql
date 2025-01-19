@@ -46,5 +46,11 @@ INSERT INTO orders (id, customer_id, item_price, discount_rate, amount_paid, cre
 (29, 3, 90.0, 20.0, 90.0 * (1 - 20.0 / 100), CURRENT_TIMESTAMP),
 (30, 3, 100.0, 20.0, 100.0 * (1 - 20.0 / 100), CURRENT_TIMESTAMP);
 
+-- Restart the sequence for `customer_tiers`
+ALTER SEQUENCE customer_tiers_seq RESTART WITH (SELECT MAX(id) + 51 FROM customer_tiers);
 
+-- Restart the sequence for `customers`
+ALTER SEQUENCE customers_seq RESTART WITH (SELECT MAX(id) + 51 FROM customers);
 
+-- Restart the sequence for `orders`
+ALTER SEQUENCE orders_seq RESTART WITH (SELECT MAX(id) + 51 FROM orders);

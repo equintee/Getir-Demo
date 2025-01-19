@@ -1,7 +1,7 @@
 package com.equinte.gotur.service;
 
-import com.equinte.gotur.dao.customerTier.request.UpdateCustomerTierRequest;
-import com.equinte.gotur.dao.customerTier.response.CustomerTierDTO;
+import com.equinte.gotur.dao.customer_tier.request.UpdateCustomerTierRequest;
+import com.equinte.gotur.dao.customer_tier.response.CustomerTierDTO;
 import com.equinte.gotur.entity.CustomerTier;
 import com.equinte.gotur.exceptions.GeneralException;
 import com.equinte.gotur.mapper.CustomerTierMapper;
@@ -69,7 +69,7 @@ class CustomerTierServiceTest {
         CustomerTier oldTier = new CustomerTier();
         oldTier.setId(tierId);
         oldTier.setName(oldTierName);
-        oldTier.setMinimumOrderCount(5);
+        oldTier.setMinimumOrderCount(oldOrderCount);
 
         String newTierName = "Diamond Plus";
         CustomerTier newTier = new CustomerTier();
@@ -100,7 +100,7 @@ class CustomerTierServiceTest {
     void getProperCustomerTierTest() {
         long listSize = 5;
         List<CustomerTier> tiers = new ArrayList<>();
-        for (long i = 0; i < 5; i++) {
+        for (long i = 0; i < listSize; i++) {
             CustomerTier tier = new CustomerTier();
             tier.setId(i);
             tier.setMinimumOrderCount((int) i * 5);

@@ -1,7 +1,7 @@
 package com.equinte.gotur.mapper;
 
-import com.equinte.gotur.dao.customerTier.request.UpdateCustomerTierRequest;
-import com.equinte.gotur.dao.customerTier.response.CustomerTierDTO;
+import com.equinte.gotur.dao.customer_tier.request.UpdateCustomerTierRequest;
+import com.equinte.gotur.dao.customer_tier.response.CustomerTierDTO;
 import com.equinte.gotur.entity.CustomerTier;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

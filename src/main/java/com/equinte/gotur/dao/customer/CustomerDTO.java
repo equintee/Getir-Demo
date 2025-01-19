@@ -9,8 +9,8 @@ import java.util.List;
 
 @Data
 public class CustomerDTO {
-    public LocalDateTime createTime;
-    public List<Order> orders;
+    private LocalDateTime createTime;
+    private List<Order> orders;
     private Long id;
     private String username;
     private CustomerTier tier;

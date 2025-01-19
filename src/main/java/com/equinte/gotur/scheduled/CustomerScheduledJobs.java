@@ -1,17 +1,20 @@
 package com.equinte.gotur.scheduled;
 
 import com.equinte.gotur.dao.customer.CustomerDTO;
-import com.equinte.gotur.dao.customerTier.response.CustomerTierDTO;
+import com.equinte.gotur.dao.customer_tier.response.CustomerTierDTO;
+import com.equinte.gotur.exceptions.GeneralException;
 import com.equinte.gotur.service.CustomerService;
 import com.equinte.gotur.service.CustomerTierService;
 import com.equinte.gotur.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,7 +29,7 @@ public class CustomerScheduledJobs {
 
     //This is unnecessary because I am already setting customer tier when they place order.
     //I'm just implementing this because it's in requirements.
-    @Scheduled(cron = "* * * * *")
+    @Scheduled(cron = "1 * * * * *")
     public void updateCustomerTierJob() {
         log.info("Customer tier update job started.");
         List<CustomerDTO> customers = customerService.findAllDtos();
@@ -44,7 +47,10 @@ public class CustomerScheduledJobs {
             log.info("Customer tier update job finished.");
         } catch (InterruptedException e) {
             log.error("Customer tier update job failed.");
-            throw new RuntimeException(e);
+            //Should throw special exception. Lazy implementation
+            throw new GeneralException("Job Failed", "Job Failed", HttpStatus.INTERNAL_SERVER_ERROR);
+        } finally {
+            executorService.shutdown();
         }
     }
 
@@ -55,15 +61,13 @@ public class CustomerScheduledJobs {
         for (CustomerTierDTO tier : tiers) {
             int minimumOrderCount = tier.getMinimumOrderCount();
 
-            if (orderCount == minimumOrderCount) {
-                customerService.findById(customerDTO.getId()).setTier(customerTierService.findById(tier.getId()));
+            if (orderCount == minimumOrderCount && !Objects.equals(customerDTO.getTier().getId(), tier.getId())) {
+                customerService.findEntityById(customerDTO.getId()).setTier(customerTierService.findById(tier.getId()));
                 log.info("CustomerID: {} tier updated to {}", customerDTO.getId(), tier.getName());
-                break;
             }
 
             if (orderCount == minimumOrderCount - 1) {
                 notificationService.sendNotification(customerDTO.getId(), String.format("Make one more order to promote %s tier!", tier.getName()));
-                break;
             }
 
             //Since customer tiers sorted by minimumOrderCount, we can reduce amount of loops by checking if orderCount is less then minimumOrderCount

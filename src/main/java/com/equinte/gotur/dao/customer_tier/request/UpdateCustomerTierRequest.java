@@ -1,4 +1,4 @@
-package com.equinte.gotur.dao.customerTier.request;
+package com.equinte.gotur.dao.customer_tier.request;
 
 
 import jakarta.validation.constraints.Max;

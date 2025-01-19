@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.Random;
 
 public class ItemPriceUtil {
-    private final static Random RANDOM = new Random();
+    private static final Random RANDOM = new Random();
 
     //To hide public constructor.
     private ItemPriceUtil() {

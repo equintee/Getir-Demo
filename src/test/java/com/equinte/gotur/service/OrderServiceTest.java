@@ -1,6 +1,5 @@
 package com.equinte.gotur.service;
 
-import com.equinte.gotur.dao.customer.CustomerDTO;
 import com.equinte.gotur.dao.order.request.CreateOrderRequest;
 import com.equinte.gotur.dao.order.response.CreateOrderResponse;
 import com.equinte.gotur.entity.Customer;
@@ -73,17 +72,13 @@ class OrderServiceTest {
         customerTier.setDiscountRate(0.1f);
         customer.setTier(customerTier);
 
-        CustomerDTO customerDTO = new CustomerDTO();
-        customerDTO.setId(customerId);
-        customerDTO.setTier(customerTier);
-
         long orderId = 1L;
         Order order = new Order();
         order.setId(orderId);
         order.setCustomer(customer);
 
 
-        when(customerService.findDtoById(customerId)).thenReturn(customerDTO);
+        when(customerService.findEntityById(customerId)).thenReturn(customer);
         when(repository.save(any(Order.class))).thenReturn(order);
 
         CreateOrderRequest request = new CreateOrderRequest();

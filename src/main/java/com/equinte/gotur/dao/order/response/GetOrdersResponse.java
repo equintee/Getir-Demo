@@ -6,5 +6,5 @@ import java.util.List;
 
 @Data
 public class GetOrdersResponse {
-    private List<OrderDTO> data;
+    private List<GetOrdersResponseElement> data;
 }

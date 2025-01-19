@@ -1,7 +1,7 @@
 package com.equinte.gotur.service;
 
-import com.equinte.gotur.dao.customerTier.request.UpdateCustomerTierRequest;
-import com.equinte.gotur.dao.customerTier.response.CustomerTierDTO;
+import com.equinte.gotur.dao.customer_tier.request.UpdateCustomerTierRequest;
+import com.equinte.gotur.dao.customer_tier.response.CustomerTierDTO;
 import com.equinte.gotur.entity.CustomerTier;
 import com.equinte.gotur.exceptions.GeneralException;
 import com.equinte.gotur.mapper.CustomerTierMapper;
@@ -19,11 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomerTierService {
     private static final Logger log = LoggerFactory.getLogger(CustomerTierService.class);
+    private static final CustomerTierMapper MAPPER = CustomerTierMapper.INSTANCE;
     private final CustomerTierRepository repository;
-    private final CustomerTierMapper mapper = CustomerTierMapper.INSTANCE;
 
     public List<CustomerTierDTO> findAllDto() {
-        return repository.findAll().stream().map(mapper::toDto).sorted(Comparator.comparing(CustomerTierDTO::getMinimumOrderCount)).toList();
+        return repository.findAll().stream().map(MAPPER::toDto).sorted(Comparator.comparing(CustomerTierDTO::getMinimumOrderCount)).toList();
     }
 
     public CustomerTier findById(Long id) {
@@ -36,11 +36,11 @@ public class CustomerTierService {
     public CustomerTierDTO update(UpdateCustomerTierRequest request) {
         CustomerTier customerTier = repository.findById(request.getId()).orElseThrow(() -> new GeneralException(String.format("Customer Tier not found. id:%d", request.getId()), "Customer Tier not found.", HttpStatus.UNPROCESSABLE_ENTITY));
 
-        customerTier = mapper.updateEntity(customerTier, request);
+        customerTier = MAPPER.updateEntity(customerTier, request);
         customerTier = repository.save(customerTier);
 
         log.info("Customer Tier updated. id:{}", customerTier.getId());
-        return mapper.toDto(customerTier);
+        return MAPPER.toDto(customerTier);
     }
 
     public CustomerTier getProperCustomerTier(Integer orderCount) {
